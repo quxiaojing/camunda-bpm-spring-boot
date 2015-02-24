@@ -1,8 +1,10 @@
 package org.camunda.bpm.extension.spring.boot.conf;
 
+import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.spring.ProcessEngineFactoryBean;
 import org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration;
+import org.camunda.bpm.engine.spring.components.jobexecutor.SpringJobExecutor;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,28 +20,17 @@ import java.io.IOException;
 @ConditionalOnMissingBean(ProcessEngineFactoryBean.class)
 public class CamundaAutoConfiguration extends AbstractCamundaAutoConfiguration {
 
+  @Autowired
+  ProcessEngine processEngine;
 
-
+  @Override
   @Bean
-  public SpringProcessEngineConfiguration springProcessEngineConfig() throws IOException {
-    SpringProcessEngineConfiguration config = new SpringProcessEngineConfiguration();
-    config.setDataSource(beanFactory.getBean(DataSource.class));
-    config.setProcessEngineName("processEngine");
-
-    config.setDatabaseSchemaUpdate(Boolean.TRUE.toString());
-
-    config.setJobExecutorDeploymentAware(camundaProperties.isJobExecutorDeploymentAware());
-    config.setJobExecutorActivate(true);
-
-    config.setCmmnEnabled(camundaProperties.isCmmnEnabled());
-
-    config.setHistory(HistoryLevel.HISTORY_LEVEL_FULL.getName());
-
-    config.setTransactionManager(beanFactory.getBean(PlatformTransactionManager.class));
-    config.setDeploymentResources(appContext.getResources("classpath*:*.bpmn"));
+  public SpringProcessEngineConfiguration createProcessEngineConfiguration(DataSource dataSource,
+                                                                           PlatformTransactionManager transactionManager,
+                                                                           SpringJobExecutor springJobExecutor) throws IOException {
+    SpringProcessEngineConfiguration config = super.createProcessEngineConfiguration(dataSource, transactionManager, springJobExecutor);
 
     return config;
   }
-
 
 }

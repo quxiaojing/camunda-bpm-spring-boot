@@ -39,6 +39,7 @@ public class CamundaProperties {
   private boolean cmmnEnabled;
   private boolean jobExecutorDeploymentAware;
   private boolean jobExecutorActive;
+  protected String databaseSchemaUpdate = ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE;
 
   public boolean isCmmnEnabled() {
     return cmmnEnabled;
@@ -74,4 +75,11 @@ public class CamundaProperties {
     processEnginePlugins.add(new ConnectProcessEnginePlugin());
   }
 
+  public String getDatabaseSchemaUpdate() {
+    return databaseSchemaUpdate;
+  }
+
+  public void setDatabaseSchemaUpdate(String databaseSchemaUpdate) {
+    this.databaseSchemaUpdate = databaseSchemaUpdate;
+  }
 }

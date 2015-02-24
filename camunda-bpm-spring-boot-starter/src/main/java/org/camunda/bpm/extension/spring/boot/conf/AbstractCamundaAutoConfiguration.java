@@ -5,6 +5,7 @@ import org.camunda.bpm.engine.impl.jobexecutor.CallerRunsRejectedJobsHandler;
 import org.camunda.bpm.engine.spring.ProcessEngineFactoryBean;
 import org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration;
 import org.camunda.bpm.engine.spring.components.jobexecutor.SpringJobExecutor;
+import org.camunda.bpm.engine.spring.container.ManagedProcessEngineFactoryBean;
 import org.camunda.bpm.extension.spring.boot.CamundaProperties;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -32,35 +34,21 @@ public abstract class AbstractCamundaAutoConfiguration {
   @Autowired
   protected CamundaProperties camundaProperties;
 
-  protected ProcessEngine processEngine;
-
   public SpringProcessEngineConfiguration createProcessEngineConfiguration(DataSource dataSource,
                                                                            PlatformTransactionManager transactionManager,
                                                                            SpringJobExecutor springJobExecutor) throws IOException {
     SpringProcessEngineConfiguration config = new SpringProcessEngineConfiguration();
-    config.setDataSource(dataSource);
-//    config.setProcessEngineName("processEngine");
-
-//    config.setDatabaseTablePrefix("");
-//    config.setDatabaseSchemaUpdate(Boolean.TRUE.toString());
-
-//    config.setJobExecutorDeploymentAware(camundaSettings.isJobExecutorDeploymentAware());
+    config.setDataSource(new TransactionAwareDataSourceProxy(dataSource));
+    config.setTransactionManager(transactionManager);
     if (springJobExecutor != null) {
       config.setJobExecutor(springJobExecutor);
       config.setJobExecutorActivate(true);
     }
-//    config.setJobExecutorActivate(false);
+    config.setDatabaseSchemaUpdate(camundaProperties.getDatabaseSchemaUpdate());
 
-//    config.setCmmnEnabled(camundaSettings.isCmmnEnabled());
-
-//    config.setHistory(HistoryLevel.HISTORY_LEVEL_FULL.getName());
-
-    config.setTransactionManager(transactionManager);
-//    config.setDeploymentResources(appContext.getResources("classpath*:*.bpmn"));
-
-//    config.setJpaEntityManagerFactory(null);
     return config;
   }
+
 
   @Bean
   public SpringJobExecutor springJobExecutor(TaskExecutor taskExecutor) {
@@ -72,65 +60,60 @@ public abstract class AbstractCamundaAutoConfiguration {
 
   @Bean
   public ProcessEngineFactoryBean processEngine(SpringProcessEngineConfiguration configuration) throws IOException {
-    ProcessEngineFactoryBean processEngineFactoryBean = new ProcessEngineFactoryBean();
+    ProcessEngineFactoryBean processEngineFactoryBean = new ManagedProcessEngineFactoryBean();
     processEngineFactoryBean.setProcessEngineConfiguration(configuration);
     return processEngineFactoryBean;
-  }
-
-  @Bean
-  public ProcessEngine processEngine(ProcessEngineFactoryBean processEngineFactoryBean) throws Exception {
-    return processEngineFactoryBean.getObject();
-  }
-
-  @Bean
-  public RepositoryService repositoryService() throws Exception {
-    return processEngine.getRepositoryService();
-  }
-
-  @Bean
-  public RuntimeService runtimeService() throws Exception {
-    return processEngine.getRuntimeService();
-  }
-
-  @Bean
-  public TaskService taskService() throws Exception {
-    return processEngine.getTaskService();
-  }
-
-  @Bean
-  public HistoryService historyService() throws Exception {
-    return processEngine.getHistoryService();
-  }
-
-  @Bean
-  public ManagementService managementService() throws Exception {
-    return processEngine.getManagementService();
-  }
-
-  @Bean
-  public CaseService caseService() throws Exception {
-    return processEngine.getCaseService();
-  }
-
-  @Bean
-  public FilterService filterService() throws Exception {
-    return processEngine.getFilterService();
-  }
-
-  @Bean
-  public FormService formService() throws Exception {
-    return processEngine.getFormService();
-  }
-
-  @Bean
-  public IdentityService identityService() throws Exception {
-    return processEngine.getIdentityService();
   }
 
   @Bean
   @ConditionalOnMissingBean
   public TaskExecutor taskExecutor() {
     return new SimpleAsyncTaskExecutor();
+  }
+
+  @Bean
+  public RepositoryService repositoryService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getRepositoryService();
+  }
+
+  @Bean
+  public RuntimeService runtimeService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getRuntimeService();
+  }
+
+  @Bean
+  public TaskService taskService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getTaskService();
+  }
+
+  @Bean
+  public HistoryService historyService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getHistoryService();
+  }
+
+  @Bean
+  public ManagementService managementService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getManagementService();
+  }
+
+  @Bean
+  public CaseService caseService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getCaseService();
+  }
+
+  @Bean
+  public FilterService filterService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getFilterService();
+  }
+
+  @Bean
+  public FormService formService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getFormService();
+  }
+
+  @Bean
+  public IdentityService identityService(ProcessEngine processEngine) throws Exception {
+    return processEngine.getIdentityService();
   }
 
 }

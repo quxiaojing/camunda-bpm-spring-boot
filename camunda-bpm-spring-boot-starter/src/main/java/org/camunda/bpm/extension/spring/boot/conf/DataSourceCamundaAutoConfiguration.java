@@ -25,7 +25,7 @@ public class DataSourceCamundaAutoConfiguration {
 
 
     @Configuration
-    @ConditionalOnMissingClass(name= "javax.persistence.EntityManagerFactory")
+    @ConditionalOnMissingClass(javax.persistence.EntityManagerFactory.class)
     @EnableConfigurationProperties(CamundaProperties.class)
     public static class DataSourceProcessEngineConfiguration extends AbstractCamundaAutoConfiguration {
 

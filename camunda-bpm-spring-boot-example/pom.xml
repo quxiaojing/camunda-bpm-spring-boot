@@ -19,14 +19,15 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jdbc</artifactId>
+      <groupId>org.camunda.bpm.extensions</groupId>
+      <artifactId>spring-boot-starter-camunda-bpm</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
 
-    <!--<dependency>-->
-      <!--<groupId>org.springframework.boot</groupId>-->
-      <!--<artifactId>spring-boot-starter-web</artifactId>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>de.codecentric</groupId>

@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.camunda.bpm.extension.spring.boot.conf.CamundaAutoConfiguration
