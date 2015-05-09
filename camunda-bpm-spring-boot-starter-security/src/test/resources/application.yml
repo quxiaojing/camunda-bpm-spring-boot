@@ -1,0 +1,20 @@
+spring:
+  profiles.active: default
+---
+spring:
+  profiles: default
+
+  application:
+    name: @pom.artifactId@
+
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:camunda;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+    jmx-enabled: true
+
+server:
+  port: 9090
+
+camunda:

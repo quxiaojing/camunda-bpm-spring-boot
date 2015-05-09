@@ -1,0 +1,17 @@
+= Examples
+
+TODO:
+
+Show the different possibilities of using the spring-boot-starter- :
+
+* [] camunda-basic
+* [] camunda-jpa
+* [] camunda-rest
+* [] camunda-security
+
+* [] Create examples of the different configurations located inside ./examples/...
+
+* [] Create examples for configuring camunda bpm together with spring-security
+* [] Create commands for Crashub
+* [] Create actuator endpoints
+* [] Create healthcheck endpoints?

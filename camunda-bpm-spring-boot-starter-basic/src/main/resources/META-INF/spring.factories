@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.camunda.bpm.extension.spring.boot.conf.CamundaAutoConfiguration,\
+org.camunda.bpm.extension.spring.boot.conf.CamundaJpaAutoConfiguration,\
+org.camunda.bpm.extension.spring.boot.conf.CamundaRestApiAutoConfiguration,\
+org.camunda.bpm.extension.spring.boot.conf.DataSourceCamundaAutoConfiguration
