@@ -39,8 +39,6 @@ public abstract class AbstractCamundaAutoConfiguration {
     config.setDataSource(new TransactionAwareDataSourceProxy(dataSource));
     config.setTransactionManager(transactionManager);
     if (springJobExecutor != null) {
-      springJobExecutor
-
       config.setJobExecutor(springJobExecutor);
       config.setJobExecutorActivate(true);
     }

@@ -37,7 +37,7 @@ public class CamundaSpringBootApplicationTest extends AbstractCamundaSpringBootI
   @Test
   public void processEngineAvailable() throws Exception {
     assertNotNull(processEngine);
-    assertEquals(BpmPlatform.getProcessEngineService().getProcessEngine(environment.getProperty("spring.application.name")), processEngine);
+    assertEquals(BpmPlatform.getProcessEngineService().getProcessEngine("default"), processEngine);
   }
 
   @Test

@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Stuff from
  *  - @link org.camunda.bpm.container.impl.deployment.StartProcessEngineStep
@@ -93,7 +92,7 @@ public class CamundaProperties {
     configuration.setProcessEngineName("default");
 //    configuration.setProcessEngineName(environment.getProperty("spring.application.name", "default"));
 
-    PropertyHelper.applyProperties(configuration, properties);
+    //PropertyHelper.applyProperties(configuration, properties);
 
     // register Spin and Connect
     List<ProcessEnginePlugin> processEnginePlugins = configuration.getProcessEnginePlugins();
@@ -155,22 +154,5 @@ public class CamundaProperties {
     return new JmxManagedProcessEngineController(configuration);
   }
 
-  /**
-   * <p>Instantiates and applies all {@link ProcessEnginePlugin}s defined in the processEngineXml
-   */
-  protected void configurePlugins(ProcessEngineConfigurationImpl configuration, ProcessEngineXml processEngineXml, ClassLoader classLoader) {
 
-    for (ProcessEnginePluginXml pluginXml : processEngineXml.getPlugins()) {
-      // create plugin instance
-      Class<? extends ProcessEnginePlugin> pluginClass = loadClass(pluginXml.getPluginClass(), classLoader, ProcessEnginePlugin.class);
-      ProcessEnginePlugin plugin = createInstance(pluginClass);
-
-      // apply configured properties
-      Map<String, String> properties = pluginXml.getProperties();
-      PropertyHelper.applyProperties(plugin, properties);
-
-      // add to configuration
-      configuration.getProcessEnginePlugins().add(plugin);
-    }
-  }
 }

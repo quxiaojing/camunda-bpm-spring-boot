@@ -3,13 +3,9 @@ package org.camunda.bpm.spring.boot.example;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.spring.application.SpringServletProcessApplication;
 import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.extension.spring.boot.SpringBootServletProcessApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
 
 import java.util.Calendar;
 import java.util.logging.Logger;
@@ -27,11 +23,6 @@ public class CamundaBpmExampleApplication {
 
   }
 
-  @Bean
-  @DependsOn("processEngine")
-  public SpringServletProcessApplication springServletProcessApplication() {
-    return new SpringBootServletProcessApplication();
-  }
 
   private void startProcessInstance(ProcessEngine processEngine) {
     // process instance 1

@@ -28,7 +28,7 @@ public class SampleCamundaBootRestApplicationTest {
     ResponseEntity<String> entity = new TestRestTemplate().getForEntity(
       "http://localhost:" + port + "/api/engine/", String.class);
     assertEquals(HttpStatus.OK, entity.getStatusCode());
-    assertEquals("[{\"name\":\"camunda-bpm-spring-boot-starter-rest\"}]", entity.getBody());
+    assertEquals("[{\"name\":\"default\"}]", entity.getBody());
   }
 
 }

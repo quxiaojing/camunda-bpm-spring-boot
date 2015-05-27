@@ -17,12 +17,13 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>examples</module>
+
     <module>camunda-bpm-spring-boot-starter-basic</module>
     <module>camunda-bpm-spring-boot-starter-jpa</module>
     <module>camunda-bpm-spring-boot-starter-rest</module>
     <!--<module>camunda-bpm-spring-boot-starter-security</module>-->
     <!--<module>camunda-bpm-spring-boot-starter-remote-shell</module>-->
+    <module>examples</module>
   </modules>
 
   <properties>
@@ -140,10 +141,7 @@
     </pluginManagement>
 
     <plugins>
-      <plugin>
-        <groupId>org.asciidoctor</groupId>
-        <artifactId>asciidoctor-maven-plugin</artifactId>
-      </plugin>
+
     </plugins>
   </build>
 </project>
